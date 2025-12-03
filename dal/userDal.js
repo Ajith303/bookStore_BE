@@ -2,6 +2,9 @@ const userDal = new Object()
 const userModel = require("../model/userModel")
 
 userDal.createUser = async (req)=>{
+ 
+
+    
     try{
         let payload = userModel(req)   
         let result = await payload.save()
