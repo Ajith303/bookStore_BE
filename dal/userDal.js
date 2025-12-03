@@ -18,7 +18,7 @@ userDal.createUser = async (req)=>{
 userDal.findMail = async(email)=>{
     try{
         let query = [{deleted:false},{Email:email}]
-        let result = await userDal.find({$and:query})
+        let result = await userModel.find({$and:query})
         if(result){
             return {status:true,message:"email find successfully",data:result[0]}
         }
