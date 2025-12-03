@@ -3,7 +3,7 @@ const userModel = require("../model/userModel")
 
 userDal.createUser = async (req)=>{
     try{
-        let payload = userModel(req)
+        let payload = userModel(req)   
         let result = await payload.save()
         if(result){
             return {status:true,message:"created",data:result}
