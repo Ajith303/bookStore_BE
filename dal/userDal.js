@@ -2,7 +2,13 @@ const userDal = new Object()
 const userModel = require("../model/userModel")
 
 userDal.createUser = async (req)=>{
- 
+
+
+
+
+
+
+
 
     
     try{
