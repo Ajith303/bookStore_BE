@@ -7,4 +7,18 @@ productRoute.post("/create",async(req,res)=>{
     res.status(result.code).send(result)
 })
 
+productRoute.get("/get",async(req,res)=>{
+    let result = await productController.getProduct(req)
+    res.status(result.code).send(result)
+})
+
+productRoute.put("/update",async(req,res)=>{
+    let result = await productController.updateProduct(req)
+    res.status(result.code).send(result)
+})
+
+productRoute.put("/delete",async(req,res)=>{
+    let result = await productController.deleteProduct(req)
+    res.status(result.code).send(result)
+})
 module.exports = productRoute
