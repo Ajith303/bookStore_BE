@@ -1,19 +1,8 @@
 const userController = new Object()
 const userDal = require ("../dal/userDal")
-
-userController.createUser = async (req)=>{
-    try{
-        let body = req.body
-        let result = await userDal.createUser(body)
-        if(result){
-            return {code:200,status:true,message:result.message,data:result.data}
-        }
-        return {code:400,status:false,message:result.message,data:{}}
-    }
-    catch(err){
-        return {code:500,status:false,message:err?err.message:"Internal Server error"}
-    }
-}
+const tokenHelper = require ("../Helper/tokenHelper")
+require("dotenv").config()
+const key = process.env.secretKey
 
 userController.userLogin = async (req)=>{
     try{
@@ -30,15 +19,32 @@ userController.userLogin = async (req)=>{
             return {code:400,status:false,message:"email not found"}
         }
         if(body.Password===result.data.Password){
-            return {code:200,status:true,message:"login successfull"}
+            let token = await tokenHelper.generateAccessToken(result.data._id,result.data.Email,key)
+            let resultData = result.data.toObject()
+            resultData.token = token 
+            return {code:200,status:true,message:"login successfull",data:resultData}
         }
         return {code:400,status:false,message:"enter the correct password"}
     }
-    catch{
-        return {code:500,statusLfalse,message:err?err.message:"internal server error"}
+    catch(err){
+        return {code:500,status:false,message:err?err.message:"internal server error"}
     }
 
 }
+userController.createUser = async (req)=>{
+    try{
+        let body = req.body
+        let result = await userDal.createUser(body)
+        if(result){
+            return {code:200,status:true,message:result.message,data:result.data}
+        }
+        return {code:400,status:false,message:result.message,data:{}}
+    }
+    catch(err){
+        return {code:500,status:false,message:err?err.message:"Internal Server error"}
+    }
+}
+
 
 userController.getUser = async (req) =>{
     try{

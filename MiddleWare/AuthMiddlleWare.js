@@ -1,0 +1,70 @@
+const jwt = require('jsonwebtoken');
+// const url = require('url');
+const tokenHelper = require ("../Helper/tokenHelper")
+const userModel = require ("../model/userModel")
+require('dotenv').config();
+
+const AuthMiddleWare = async (req, res, next) => {
+  try {
+    const authorization = req.headers.authorization;
+
+    if (!authorization) {
+      return res.status(403).send({
+        status: false,
+        message: "Token missing in headers",
+      });
+    }
+
+    const token = authorization.split(" ")[1];
+
+    // verify token
+    const decoded = jwt.verify(token, process.env.secretKey);
+
+    if (!decoded || !decoded.userId) {
+      return res.status(401).send({
+        code : 401,
+        status: false,
+        message: "Invalid token or user data missing",
+      });
+    }
+
+    const user = await userModel.findById(decoded.userId);
+
+    if (!user) {
+      return res.status(404).send({
+        code : 404,
+        status: false,
+        message: "User not found",
+      });
+    }
+
+    req.user = user;
+    next();
+
+  } catch (error) {
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({
+        code : 401,
+        status: false,
+        message: "Token expired, please login again",
+      });
+    }
+
+    if (error.name === "JsonWebTokenError") {
+      return res.status(403).json({
+        code : 403,
+        status: false,
+        message: "Invalid token",
+      });
+    }
+
+    return res.status(500).json({
+      code : 500,
+      status: false,
+      message: "AuthMiddlewareError",
+      data: error.message,
+    });
+  }
+};
+
+module.exports = AuthMiddleWare
