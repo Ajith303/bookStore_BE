@@ -1,4 +1,4 @@
 const allowedPath = [
-    "/user/login", "user/create"
+    "/user/login", "/user/create"
 ]
 module.exports= allowedPath
