@@ -10,7 +10,7 @@ userDal.createUser = async (req)=>{
         }
         return {status:false,message:"failed",data:{}}
     }
-    catch(err){
+    catch(err){ 
         return {status:false,message:err?err.message:"Interl Server Error",data:{}}
     }
 }
