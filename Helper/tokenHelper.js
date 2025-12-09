@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken")
 const tokenHelper = new Object()
 
 tokenHelper.generateAccessToken = async (userid, email, secretKey) => {                      //user kitta vangurathu
-  const accessToken = await jwt.sign({ userId: userid, Email: email }, secretKey, { expiresIn: "48h" });
+  const accessToken = await jwt.sign({ userId: userid, Email: email }, secretKey, { expiresIn: "3m" });
  // const accessToken = jwt.sign({ userId: userid, mobileNo: mobile }, secretKey, { expiresIn: "3m" });
   return accessToken;
 }
