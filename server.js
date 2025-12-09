@@ -20,7 +20,7 @@ app.use(express.json())
 app.use(bodyParser.json())
 app.use(morgan("dev"))
 app.use(cors(corsOptions))
-app.use(AuthMiddleWare)
+// app.use(AuthMiddleWare)
 app.use("/user",userRoute)
 app.use("/product",productRoute)
 
