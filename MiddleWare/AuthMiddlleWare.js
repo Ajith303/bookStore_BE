@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 // const url = require('url');
 const tokenHelper = require ("../Helper/tokenHelper")
 const userModel = require ("../model/userModel")
+const allowedPath = require ("../Helper/allowedPath")
 require('dotenv').config();
 
 const AuthMiddleWare = async (req, res, next) => {
@@ -14,7 +15,6 @@ const AuthMiddleWare = async (req, res, next) => {
         message: "Token missing in headers",
       });
     }
-
     const token = authorization.split(" ")[1];
 
     // verify token
