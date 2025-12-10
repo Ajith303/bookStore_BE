@@ -13,7 +13,6 @@ const AuthMiddleWare = async (req, res, next) => {
     }
   
     const authorization = req.headers.authorization;
-    console.log({authorization})
     if (!authorization) {
       return res.status(403).send({
         status: false,
@@ -28,7 +27,7 @@ const AuthMiddleWare = async (req, res, next) => {
         message: "userId missing in headers",
       });
     }
-    const token = authorization.split(" ")[1];
+
     const userData = await userModel.findById(userId)
      if (!userData) {
       return res.status(401).send({
@@ -39,6 +38,7 @@ const AuthMiddleWare = async (req, res, next) => {
     }
 
     // verify token
+    const token = authorization.split(" ")[1];    
     const decoded = jwt.verify(token, process.env.secretKey);
 
     if (!decoded || !decoded.userId) {

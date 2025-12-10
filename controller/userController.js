@@ -79,7 +79,7 @@ userController.updateUser=async(req)=>{
         let data ={
             deleted :true
         }
-        let result = await userDal.updateUser(body._id,data)  //////////// ithu la body la id ah  mattu vangi data nu oru variable name vachi athula deleted false nu kuduthurukkom bay ah vangala yena namma anga body la yethuvom vanga porathu ila 
+        let result = await userDal.updateUser(body._id,data)
         if(result){
             return{code:200,status:true,message:"deleted successfully"}
         }

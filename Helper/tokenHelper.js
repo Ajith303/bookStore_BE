@@ -1,13 +1,13 @@
 const jwt = require("jsonwebtoken")
 const tokenHelper = new Object()
 
-tokenHelper.generateAccessToken = async (userid, email, secretKey) => {                      //user kitta vangurathu
+tokenHelper.generateAccessToken = async (userid, email, secretKey) => {                   
   const accessToken = await jwt.sign({ userId: userid, Email: email }, secretKey, { expiresIn: "3m" });
  // const accessToken = jwt.sign({ userId: userid, mobileNo: mobile }, secretKey, { expiresIn: "3m" });
   return accessToken;
 }
 
-tokenHelper.verifyAccessToken = (token, secretKey) => {             //token um key um same ah nu check pannanum
+tokenHelper.verifyAccessToken = (token, secretKey) => {            
   try {
     const decoded = jwt.verify(token, secretKey);
     return decoded;
@@ -16,7 +16,7 @@ tokenHelper.verifyAccessToken = (token, secretKey) => {             //token um k
   }
 }
 
-tokenHelper.decodeAccessToken = (token) => {                        //data va check pndrathu   
+tokenHelper.decodeAccessToken = (token) => {                       
   try {
     const decoded = jwt.decode(token);
     return decoded;
