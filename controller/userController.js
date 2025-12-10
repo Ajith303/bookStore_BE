@@ -62,7 +62,7 @@ userController.getUser = async (req) =>{
 userController.updateUser=async(req)=>{
     try{
         let body = req.body
-        let result = await userDal.updateUser(body._id,body) ////////00
+        let result = await userDal.updateUser(body._id,body)
         if(result){
             return {code:200,status:true,message:result.message,data:result.data}
         }

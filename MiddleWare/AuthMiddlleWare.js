@@ -19,8 +19,7 @@ const AuthMiddleWare = async (req, res, next) => {
         message: "Token missing in headers",
       });
     }
-  const userId = req.headers["userid"] || req.headers["userId"];
-    console.log({userId})
+  const userId = req.headers["userid"] || req.headers["userId"]
      if (!userId) {
       return res.status(403).send({
         status: false,
@@ -38,8 +37,9 @@ const AuthMiddleWare = async (req, res, next) => {
     }
 
     // verify token
-    const token = authorization.split(" ")[1];    
-    const decoded = jwt.verify(token, process.env.secretKey);
+    const token = authorization.split(" ")[1]; 
+    const decoded = tokenHelper.verifyAccessToken(token, process.env.secretKey)   
+    //const decoded = jwt.verify(token, process.env.secretKey);
 
     if (!decoded || !decoded.userId) {
       return res.status(401).send({
