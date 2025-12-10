@@ -71,7 +71,7 @@ userController.updateUser=async(req)=>{
     catch(err){
          return {code:500,status:false,message:err?err.message:"Internal Server Error"}
     }
-}
+ }
 
  userController.deleteUser = async (req) => {
     try{
