@@ -55,7 +55,7 @@ userController.getUser = async (req) =>{
         return {code:400,status:false,message:result.message}
     }
     catch(err){
-        return {code:500,message:false,message:err?err.message:"internal server error"}
+        return {code:500,status:false,message:err?err.message:"internal server error"}
     }
 }
 

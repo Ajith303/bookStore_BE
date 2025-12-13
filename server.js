@@ -5,11 +5,13 @@ const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
 const AuthMiddleWare = require ("./MiddleWare/AuthMiddlleWare")
 const cors = require ("cors")
+require('dotenv').config();
 const port = 3004
 console.log(port)
 
 const userRoute = require ("./route/userRoute")
 const productRoute = require("./route/productRoute")
+const contactRoute = require ("./route/contactRoute")
 
 const corsOptions = {
      origin:"*",
@@ -20,16 +22,13 @@ app.use(express.json())
 app.use(bodyParser.json())
 app.use(morgan("dev"))
 app.use(cors(corsOptions))
-app.use(AuthMiddleWare)
+// app.use(AuthMiddleWare)
 app.use("/user",userRoute)
 app.use("/product",productRoute)
+app.use("/contact",contactRoute)
 
-mongoose.connect("mongodb+srv://project:project.123@cluster0.c7p4lyq.mongodb.net/project")
+mongoose.connect(process.env.MONGO_URI)
 .then(()=>console.log("mangoose conected"))
 .catch(err=>console.log(err))
 
 app.listen(port,()=>{console.log(`conected in ${port}`)})
-
-
-
-//mongodb+srv://project:project.123@cluster0.c7p4lyq.mongodb.net/?appName=Cluster0
