@@ -1,60 +1,71 @@
-const jwt = require('jsonwebtoken');
-const url = require('url');
-const tokenHelper = require ("../Helper/tokenHelper")
-const userModel = require ("../model/userModel")
-const allowedPath = require ("../Helper/allowedPath")
+const tokenHelper = require("../Helper/tokenHelper");
+const userModel = require("../model/userModel");
+const allowedPath = require("../Helper/allowedPath");
+const url = require('url');  // ✅ add this line
 require('dotenv').config();
+const secretKey = process.env.SECRET_KEy
 
 const AuthMiddleWare = async (req, res, next) => {
   try {
-    const pathname =url.parse (req.originalUrl).pathname
-    if(allowedPath.includes(pathname)){
+    const pathname = url.parse(req.originalUrl).pathname;
+
+    if (allowedPath.includes(pathname)) {
       return next()
     }
-  
-    const authorization = req.headers.authorization;
-    if (!authorization) {
-      return res.status(403).send({
+
+    // ✅ use cookies instead of headers
+    const token = req.cookies.token
+    const userId = req.cookies.userId
+
+    if (!token || !userId) {
+      return res.status(401).send({
         status: false,
-        message: "Token missing in headers",
+        message: "Authentication required",
       });
     }
-  const userId = req.headers["userid"] || req.headers["userId"]
-     if (!userId) {
-      return res.status(403).send({
+
+    const decoded = tokenHelper.verifyAccessToken(token, secretKey);
+    if (!decoded || decoded.userId !== userId) {
+      return res.status(401).send({
         status: false,
-        message: "userId missing in headers",
+        message: "Invalid token",
       });
     }
 
     const userData = await userModel.findById(userId)
-     if (!userData) {
+    if (!userData || userData.deleted) {
       return res.status(401).send({
-        code : 401,
         status: false,
-        message: "user not found",
+        message: "User not found",
       });
     }
 
-    // verify token
-    const token = authorization.split(" ")[1]; 
-    const decoded = tokenHelper.verifyAccessToken(token, process.env.secretKey)   
-    //const decoded = jwt.verify(token, process.env.secretKey);
-
-    if (!decoded || !decoded.userId) {
-      return res.status(401).send({
-        code : 401,
+    //admin
+    if ((pathname.startsWith("/product") || pathname.startsWith("/contact"))  && userData.role !== "admin") {
+      return res.status(403).send({
         status: false,
-        message: "Invalid token or user data missing",
+        message: "Admin access only",
       });
     }
     
+
+    req.user = userData
+
     next();
 
-  } catch (error) {
+  }
+  //   catch (err) {
+  //     return res.status(500).send({
+  //       status: false,
+  //       message: "AuthMiddleware error",
+  //       error: err.message,
+  //     });
+  //   }
+  // }
+  catch (error) {
     if (error.name === "TokenExpiredError") {
       return res.status(401).json({
-        code : 401,
+        code: 401,
         status: false,
         message: "Token expired, please login again",
       });
@@ -62,19 +73,19 @@ const AuthMiddleWare = async (req, res, next) => {
 
     if (error.name === "JsonWebTokenError") {
       return res.status(403).json({
-        code : 403,
+        code: 403,
         status: false,
         message: "Invalid token",
       });
     }
 
     return res.status(500).json({
-      code : 500,
+      code: 500,
       status: false,
       message: "AuthMiddlewareError",
       data: error.message,
     });
   }
-};
+}
 
 module.exports = AuthMiddleWare

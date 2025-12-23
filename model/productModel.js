@@ -1,13 +1,69 @@
 const mongoose = require("mongoose")
-const {Schema} = require ("mongoose")
+const { Schema } = require("mongoose")
 
 const productDetailsSchema = new Schema({
-    imageUrl:{type:String,default:null},
-    name:{type:String,default:null},
-    rate:{type:String,default:null},
-    productInfo:{type:String,default:null},
-    deleted:{type:Boolean,default:false}
-},{timestamps:true})
+    name: {
+        type: String
+        , default: null
+    },
+    price: {
+        type: Number,
+        default: 0.0,
+    },
+    description: {
+        type: String,
+        default: null
+    },
+    rating: {
+        type: String,
+        default: 0
+    },
+    image: {
+        type: String,
+        default:null
+    },
+    category: {
+        type: String,
+        enum: ["mobiles", "tv", "fridge", "bike","product"],
+        default:"product"
+    },
+    seller: {
+        type: String,
+        default:null
+    },
+    stock: {
+        type: Number,
+        default:null
+    },
+    numberOfReviews: {
+        type: Number,
+        default: 0
+    },
+    user:{
+        type:mongoose.Schema.ObjectId,
+        default:null
+    },
+    // reviews: [
+    //     {
+    //         name: {
+    //             type: String,
+    //             required: true
+    //         },
+    //         rating: {
+    //             type: String,
+    //             required: true
+    //         },
+    //         comment: {
+    //             type: String,
+    //             required: true
+    //         }
+    //     }
+    // ],
+    deleted: {
+        type: Boolean,
+        default: false
+    }
+}, { timestamps: true })
 
-const productModel = new mongoose.model("productDetails",productDetailsSchema)
+const productModel = new mongoose.model("productDetails", productDetailsSchema)
 module.exports = productModel

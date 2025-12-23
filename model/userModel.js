@@ -2,10 +2,12 @@ const mongoose = require("mongoose")
 const {Schema} = require ("mongoose")
 
 const userDetailsSchema = new Schema({
-    Name:{type:String,default:null},
-    Email:{type:String,default:null},
-    Password:{type:String,default:null},
-    Role:{type:String,enum:['user',"admin"],default:"user"},
+    name:{type:String,default:null},
+    email:{type:String,default:null},
+    password:{type:String,default:null},
+    role:{type:String,enum:['user',"admin"],default:"user"},
+    resetPasswordToken:{type:String},
+    resetPasswordTokenExpire:{type:Date},
     deleted:{type:Boolean,default:false}
 },{timestamps:true})
 

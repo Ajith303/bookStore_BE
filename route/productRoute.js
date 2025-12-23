@@ -2,6 +2,7 @@ const express = require ("express")
 const productRoute = express.Router()
 const productController = require ("../controller/productController")
 
+
 productRoute.post("/create",async(req,res)=>{
     let result = await productController.createProduct (req)
     res.status(result.code).send(result)
@@ -9,6 +10,11 @@ productRoute.post("/create",async(req,res)=>{
 
 productRoute.get("/get",async(req,res)=>{
     let result = await productController.getProduct(req)
+    res.status(result.code).send(result)
+})
+
+productRoute.get("/getSingle",async(req,res)=>{
+    let result = await productController.getSingleProduct(req)
     res.status(result.code).send(result)
 })
 
@@ -21,4 +27,22 @@ productRoute.put("/delete",async(req,res)=>{
     let result = await productController.deleteProduct(req)
     res.status(result.code).send(result)
 })
+//
+productRoute.get("/search", async (req, res) => {
+    try {
+        let result = await productController.searchProduct(req);
+        res.status(result.code).send(result);
+    } catch (err) {
+        res.status(500).send({ status: false, message: err.message });
+    }
+});
+////
+productRoute.get("/page", async (req, res) => {
+    let result = await productController.getAllProducts(req);
+    res.status(result.code).send(result);
+});
+
+
+
+
 module.exports = productRoute

@@ -17,7 +17,7 @@ userDal.createUser = async (req)=>{
 
 userDal.findMail = async(email)=>{
     try{
-        let query = [{deleted:false},{Email:email}]
+        let query = [{deleted:false},{email:email}]
         let result = await userModel.find({$and:query})
         if(result){
             return {status:true,message:"email find successfully",data:result[0]}
@@ -54,6 +54,22 @@ userDal.updateUser=async(id,data)=>{
         return{status:false,message:err?err.message:"Internal Server Error"}
     }
 }
+
+// logout reusable DAL method
+userDal.logoutUser = async () => {
+    try {
+        return {
+            status: true,
+            message: "Logout successful"
+        }
+    } catch (err) {
+        return {
+            status: false,
+            message: err ? err.message : "Logout failed"
+        }
+    }
+}
+
 
 
 

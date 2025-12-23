@@ -1,8 +1,10 @@
 const jwt = require("jsonwebtoken")
 const tokenHelper = new Object()
+require("dotenv").config()
+const expireTime= process.env.JWT_EXPIRES_TIME
 
 tokenHelper.generateAccessToken = async (userid, email, secretKey) => {                   
-  const accessToken = await jwt.sign({ userId: userid, Email: email }, secretKey, { expiresIn: "3m" });
+  const accessToken = await jwt.sign({ userId: userid, email: email }, secretKey, { expiresIn: expireTime});
   return accessToken;
 }
 
