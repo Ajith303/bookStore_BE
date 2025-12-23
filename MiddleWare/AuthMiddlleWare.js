@@ -1,7 +1,7 @@
 const tokenHelper = require("../Helper/tokenHelper");
 const userModel = require("../model/userModel");
 const allowedPath = require("../Helper/allowedPath");
-const url = require('url');  // ✅ add this line
+const url = require('url'); 
 require('dotenv').config();
 const secretKey = process.env.SECRET_KEy
 
@@ -13,7 +13,6 @@ const AuthMiddleWare = async (req, res, next) => {
       return next()
     }
 
-    // ✅ use cookies instead of headers
     const token = req.cookies.token
     const userId = req.cookies.userId
 
@@ -54,14 +53,7 @@ const AuthMiddleWare = async (req, res, next) => {
     next();
 
   }
-  //   catch (err) {
-  //     return res.status(500).send({
-  //       status: false,
-  //       message: "AuthMiddleware error",
-  //       error: err.message,
-  //     });
-  //   }
-  // }
+
   catch (error) {
     if (error.name === "TokenExpiredError") {
       return res.status(401).json({
