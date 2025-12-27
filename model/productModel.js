@@ -43,22 +43,6 @@ const productDetailsSchema = new Schema({
         type:mongoose.Schema.ObjectId,
         default:null
     },
-    // reviews: [
-    //     {
-    //         name: {
-    //             type: String,
-    //             required: true
-    //         },
-    //         rating: {
-    //             type: String,
-    //             required: true
-    //         },
-    //         comment: {
-    //             type: String,
-    //             required: true
-    //         }
-    //     }
-    // ],
     deleted: {
         type: Boolean,
         default: false

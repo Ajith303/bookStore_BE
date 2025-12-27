@@ -57,26 +57,11 @@ productController.getSingleProduct = async (req) => {
         let result = await productDal.getOneProduct(body._id);
 
         if (!result.status) {
-            return {
-                code: 404,
-                status: false,
-                message: "Product not found"
-            };
+            return { code: 404, status: false, message: "Product not found" };
         }
-
-        return {
-            code: 200,
-            status: true,
-            message: "Product fetched successfully",
-            data: result.data
-        };
-
+        return { code: 200, status: true, message: "Product fetched successfully", data: result.data };
     } catch (err) {
-        return {
-            code: 500,
-            status: false,
-            message: err.message
-        };
+        return { code: 500, status: false, message: err.message };
     }
 };
 
@@ -121,36 +106,17 @@ productController.searchProduct = async (req) => {
         let { name, category } = req.query;
 
         if (!name && !category) {
-            return {
-                code: 400,
-                status: false,
-                message: "wrong"
-            }
+            return { code: 400, status: false, message: "wrong" }
         }
 
         let result = await productDal.getProductByNameOrCategory({ name, category });
 
         if (!result.status) {
-            return {
-                code: 404,
-                status: false,
-                message: result.message
-            }
+            return { code: 404, status: false, message: result.message }
         }
-
-        return {
-            code: 200,
-            status: true,
-            message: "Products found",
-            data: result.data
-        }
-
+        return { code: 200, status: true, message: "Products found", data: result.data }
     } catch (err) {
-        return {
-            code: 500,
-            status: false,
-            message: err.message
-        }
+        return { code: 500, status: false, message: err.message }
     }
 }
 
@@ -158,7 +124,7 @@ productController.searchProduct = async (req) => {
 productController.getAllProducts = async (req) => {
     try {
         let page = Number(req.query.page) || 1;
-        let limit = 5; // ✅ fixed 5 data per page
+        let limit = 5;
 
         let result = await productDal.getAllProductsWithPagination(
             page,
@@ -166,17 +132,13 @@ productController.getAllProducts = async (req) => {
         );
 
         if (!result.status) {
-            return {
-                code: 404,
-                status: false,
-                message: result.message
-            };
+            return { code: 404, status: false, message: result.message };
         }
 
         return {
             code: 200,
             status: true,
-            count:result.data.length,
+            count: result.data.length,
             message: "Products fetched successfully",
             data: result.data,
             pagination: result.pagination
@@ -184,9 +146,7 @@ productController.getAllProducts = async (req) => {
 
     } catch (err) {
         return {
-            code: 500,
-            status: false,
-            message: err.message
+            code: 500, status: false, message: err.message
         };
     }
 };
@@ -196,42 +156,3 @@ module.exports = productController
 
 
 
-///////////////
-
-// productController.searchProduct = async (req) => {
-//     try {
-//         let { name, category } = req.params
-
-//         if (!name && !category) {
-//             return {
-//                 code: 400,
-//                 status: false,
-//                 message: "Please provide name or category"
-//             }
-//         }
-
-//         let result = await productDal.searchProduct({ name, category })
-
-//         if (!result.status) {
-//             return {
-//                 code: 404,
-//                 status: false,
-//                 message: result.message
-//             }
-//         }
-
-//         return {
-//             code: 200,
-//             status: true,
-//             message: result.message,
-//             data: result.data
-//         }
-
-//     } catch (err) {
-//         return {
-//             code: 500,
-//             status: false,
-//             message: err.message
-//         }
-//     }
-// }

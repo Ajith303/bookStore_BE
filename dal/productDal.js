@@ -65,19 +65,16 @@ productDal.getProductByNameOrCategory = async (params) => {
     try {
         let query = [{ deleted: false }]
 
-        // product name from params
         if (params?.name) {
             query.push({
                 name: { $regex: params.name, $options: "i" } // partial + case insensitive
             })
         }
 
-        // category from params
         if (params?.category) {
             query.push({ category: params.category })
         }
-        // console.log(query, "product query")
-
+        
         let result = await productModel.aggregate([
             {$match: {$and: query}},
             {$sort: { createdAt: -1 }
@@ -94,15 +91,11 @@ productDal.getProductByNameOrCategory = async (params) => {
     }
 }
 
-///
 productDal.getAllProductsWithPagination = async (page, limit) => {
     try {
         let skip = (page - 1) * limit;
-
         let query = { deleted: false };
-
         let totalCount = await productModel.countDocuments(query);
-
         let result = await productModel
             .find(query)
             .skip(skip)

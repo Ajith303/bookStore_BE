@@ -27,7 +27,6 @@ productRoute.put("/delete",async(req,res)=>{
     let result = await productController.deleteProduct(req)
     res.status(result.code).send(result)
 })
-//
 productRoute.get("/search", async (req, res) => {
     try {
         let result = await productController.searchProduct(req);
@@ -36,7 +35,7 @@ productRoute.get("/search", async (req, res) => {
         res.status(500).send({ status: false, message: err.message });
     }
 });
-////
+
 productRoute.get("/page", async (req, res) => {
     let result = await productController.getAllProducts(req);
     res.status(result.code).send(result);

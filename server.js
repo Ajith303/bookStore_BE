@@ -4,7 +4,7 @@ const morgan = require("morgan")
 const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
 const cors = require ("cors")
-const cookieParser = require("cookie-parser")   // ✅ new
+const cookieParser = require("cookie-parser")   
 require('dotenv').config();
 const port = process.env.PORT
 
@@ -23,7 +23,7 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(bodyParser.json())
 app.use(morgan("dev"))
-app.use(cors(corsOptions))
+app.use(cors(corsOptions))  
 app.use(AuthMiddleWare)           
 
 app.use("/user",userRoute)

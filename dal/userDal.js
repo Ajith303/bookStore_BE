@@ -55,7 +55,7 @@ userDal.updateUser=async(id,data)=>{
     }
 }
 
-// logout reusable DAL method
+// logout 
 userDal.logoutUser = async () => {
     try {
         return {
