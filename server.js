@@ -11,7 +11,7 @@ const port = process.env.PORT
 const userRoute = require ("./route/userRoute")
 const productRoute = require("./route/productRoute")
 const contactRoute = require ("./route/contactRoute")
-const AuthMiddleWare = require ("./MiddleWare/AuthMiddlleWare")
+// const AuthMiddleWare = require ("./MiddleWare/AuthMiddlleWare")
 
 const corsOptions = {
      origin:"*",
