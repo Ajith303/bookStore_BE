@@ -34,9 +34,10 @@ app.use("/docs",swaggerUI.serve,swaggerUI.setup(swaggerJsDocs))
 app.use("/user",userRoute)
 app.use("/product",productRoute)
 app.use("/contact",contactRoute)
-app.get('/',async(req,res)=>{
-    req.get("Api is running")
-})
+app.get('/', (req, res) => {
+    res.send("API is running 🚀");
+});
+
 mongoose.connect(process.env.MONGO_URI)
 .then(()=>console.log("mongoose connected"))
 .catch(err=>console.log(err))
