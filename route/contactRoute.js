@@ -12,7 +12,7 @@ contactRoute.get("/get",async(req,res)=>{
     res.status(result.code).send(result)
 })      
 
-contactRoute.delete("/delete",async(req,res)=>{
+contactRoute.put("/delete",async(req,res)=>{
     let result = await contactController.deleteContact(req)
     res.status(result.code).send(result)
 })

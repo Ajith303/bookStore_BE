@@ -5,8 +5,7 @@ const userDal = require("../dal/userDal")
 const validator = require("validator")
 const tokenHelper = require("../Helper/tokenHelper")
 const key = process.env.SECRET_KEy
-const userRoute = require("../route/userRoute")
-
+//
 
 userController.userLogin = async (req) => {
     try {
@@ -53,10 +52,7 @@ userController.createUser = async (req) => {
         if (body.password.length > 6) {
             return { code: 400, status: false, message: "Password must be a maximum of 6 characters" }
         }
-        let salt = await bcrypt.genSalt(
-
-
-        )
+        let salt = await bcrypt.genSalt()
         let hashPassword = await bcrypt.hash(body.password, salt)
         body["password"] = hashPassword
         let result = await userDal.createUser(body)
@@ -133,7 +129,7 @@ userController.deleteUser = async (req) => {
         }
         let result = await userDal.updateUser(body._id, data)
         if (result) {
-            return { code: 200, status: true, message: "deleted successfully" }
+            return { code: 200, status: true, message: "deleted successfully", data:result.data }
         }
         return { code: 400, status: false, message: "deleted failed" }
     }

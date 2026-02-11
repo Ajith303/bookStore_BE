@@ -11,7 +11,7 @@ const port = process.env.PORT
 const userRoute = require ("./route/userRoute")
 const productRoute = require("./route/productRoute")
 const contactRoute = require ("./route/contactRoute")
-// const AuthMiddleWare = require ("./MiddleWare/AuthMiddlleWare")
+const AuthMiddleWare = require ("./MiddleWare/AuthMiddlleWare")
 
 const corsOptions = {
      origin:"*",
@@ -24,7 +24,7 @@ app.use(express.json())
 app.use(bodyParser.json())
 app.use(morgan("dev"))
 app.use(cors(corsOptions))  
-// app.use(AuthMiddleWare)           
+app.use(AuthMiddleWare)           
 
 app.use("/user",userRoute)
 app.use("/product",productRoute)

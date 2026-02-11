@@ -99,7 +99,6 @@ productController.deleteProduct = async (req) => {
 }
 
 
-
 // get by name
 productController.searchProduct = async (req) => {
     try {
