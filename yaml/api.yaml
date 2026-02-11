@@ -9,7 +9,7 @@ info:
     email: support@example.com
 
 servers:
-  - url: http://localhost:3004
+  - url:  http://13.232.228.118:3004
     description: Local development server
 
 tags:
