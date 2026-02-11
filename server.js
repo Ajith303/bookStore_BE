@@ -34,7 +34,7 @@ app.use("/docs",swaggerUI.serve,swaggerUI.setup(swaggerJsDocs))
 app.use("/user",userRoute)
 app.use("/product",productRoute)
 app.use("/contact",contactRoute)
-app.get('//', (req, res) => {
+app.get('/', (req, res) => {
     console.log("Root route hit");
     res.send("API is running 🚀");
 });
