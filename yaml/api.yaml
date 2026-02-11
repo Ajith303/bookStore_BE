@@ -1,0 +1,229 @@
+openapi: "3.0.0"
+
+info:
+  title: User CRUD API
+  description: API documentation for User CRUD operations
+  version: "1.0.0"
+  contact:
+    name: API Support
+    email: support@example.com
+
+servers:
+  - url: http://localhost:3004
+    description: Local development server
+
+tags:
+  - name: User
+    description: User CRUD operations
+
+paths:
+
+  /user/get:
+    get:
+      tags:
+        - User
+      summary: Get all users
+      description: Retrieves all active users
+      responses:
+        "200":
+          description: Users fetched successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                        name:
+                          type: string
+                        email:
+                          type: string
+                        role:
+                          type: string
+                        deleted:
+                          type: boolean
+              example:
+                status: true
+                message: User get Successfully
+                data:
+                  - _id: "694bf24aa0c5554de9218d40"
+                    name: rambo
+                    email: rambo@gmail.com
+                    role: user
+                    deleted: false
+                  - _id: "695cc377b13d78298f68d041"
+                    name: ajith
+                    email: ajith@gmail.com
+                    role: admin
+                    deleted: false
+
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /user/create:
+    post:
+      tags:
+        - User
+      summary: Create a new user
+      description: Creates a new user account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                name:
+                  type: string
+                  example: rambo
+                email:
+                  type: string
+                  example: rambo@gmail.com
+                password:
+                  type: string
+                  example: "123456"
+                role:
+                  type: string
+                  example: user
+      responses:
+        "201":
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+              example:
+                status: true
+                message: created
+                data:
+                  _id: "694bf24aa0c5554de9218d40"
+                  name: rambo
+                  email: rambo@gmail.com
+                  role: user
+
+        "400":
+          description: Validation error
+        "500":
+          description: Internal server error
+
+  /user/login:
+    post:
+      tags:
+        - User
+      summary: User login
+      description: Login user with email and password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: rambo@gmail.com
+                password:
+                  type: string
+                  example: "123456"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+        "401":
+          description: Invalid credentials
+        "500":
+          description: Internal server error
+
+  /user/update:
+    put:
+      tags:
+        - User
+      summary: Update user
+      description: Updates user details
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - _id
+              properties:
+                _id:
+                  type: string
+                name:
+                  type: string
+                role:
+                  type: string
+      responses:
+        "200":
+          description: User updated successfully
+        "500":
+          description: Internal server error
+
+  /user/delete:
+    delete:
+      tags:
+        - User
+      summary: Delete user
+      description: Soft delete user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - _id
+              properties:
+                _id:
+                  type: string
+      responses:
+        "200":
+          description: User deleted successfully
+        "500":
+          description: Internal server error
+
+
